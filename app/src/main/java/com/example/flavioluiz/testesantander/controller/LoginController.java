@@ -8,6 +8,7 @@ import com.example.flavioluiz.testesantander.contract.view.LoginView;
 import com.example.flavioluiz.testesantander.model.User;
 import com.example.flavioluiz.testesantander.repository.LoginService;
 import com.example.flavioluiz.testesantander.repository.RetrofitInstance;
+import com.example.flavioluiz.testesantander.repository.response.Error;
 import com.example.flavioluiz.testesantander.repository.response.UserAccountResponse;
 import com.example.flavioluiz.testesantander.utility.Validation;
 
@@ -53,27 +54,48 @@ public class LoginController implements LoginPresenter {
     private void doLogin(User user){
 
         LoginService loginService = RetrofitInstance.createService(LoginService.class, "user", "secretpassword");
-        Call<UserAccountResponse> call = loginService.getLogin(user.getUser(), user.getPassword());
+        Call<UserAccountResponse> call = loginService.getLogin("","");
 
         call.enqueue(new Callback<UserAccountResponse >() {
             @Override
             public void onResponse(Call<UserAccountResponse> call, Response<UserAccountResponse> response) {
+
                 if (response.isSuccessful()) {
 
+                    if(response.body().getError() == null) {
+
+                        UserAccountResponse userAccountResponse = response.body();
+                        Global.userAccount = userAccountResponse.getUserAccount();
+
+                        loginView.dismissProgress();
+                        loginView.showLoggedInInterface();
+
+                    } else {
+
+                        Global.error = response.body().getError();
+
+                        loginView.dismissProgress();
+                        loginView.showErrorActivity();
+                    }
+
+                } else {
+
                     UserAccountResponse userAccountResponse = response.body();
-                    Global.userAccount = userAccountResponse.getUserAccount();
+                    Global.error = userAccountResponse.getError();
 
                     loginView.dismissProgress();
-                    loginView.showLoggedInInterface();
-                } else {
-                    // error response, no access to resource?
+                    loginView.showErrorActivity();
                 }
             }
 
             @Override
             public void onFailure(Call<UserAccountResponse> call, Throwable t) {
-                // something went completely south (like no internet connection)
-                Log.d("Error", t.getMessage());
+
+                Error error = new Error("Error", t.getMessage());
+                Global.error = error;
+
+                loginView.dismissProgress();
+                loginView.showErrorActivity();
             }
         });
     }

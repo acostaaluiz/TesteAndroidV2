@@ -8,6 +8,6 @@ public interface LoginView {
     void dismissProgress();
     void showMessageInvalidCPF();
     void showMessageInvalidEmail();
-    void doLogin(User user);
     void showLoggedInInterface();
+    void showErrorActivity();
 }

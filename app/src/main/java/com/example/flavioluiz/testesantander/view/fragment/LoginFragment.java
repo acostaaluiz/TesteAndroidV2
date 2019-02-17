@@ -1,5 +1,6 @@
 package com.example.flavioluiz.testesantander.view.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -15,6 +16,7 @@ import com.example.flavioluiz.testesantander.contract.view.LoginView;
 import com.example.flavioluiz.testesantander.controller.LoginController;
 import com.example.flavioluiz.testesantander.model.User;
 import com.example.flavioluiz.testesantander.utility.ProgressDialog;
+import com.example.flavioluiz.testesantander.view.activity.ErrorActivity;
 import com.example.flavioluiz.testesantander.view.activity.LoginActivity;
 
 public class LoginFragment extends Fragment implements LoginView{
@@ -70,11 +72,6 @@ public class LoginFragment extends Fragment implements LoginView{
     }
 
     @Override
-    public void doLogin(User user) {
-
-    }
-
-    @Override
     public void showLoggedInInterface() {
 
         userLayout.setError(null);
@@ -82,6 +79,12 @@ public class LoginFragment extends Fragment implements LoginView{
 
         LoggedInFragment fragment = new LoggedInFragment();
         ((LoginActivity) getActivity()).changeFragment(fragment, LoggedInFragment.TAG);
+    }
+
+    @Override
+    public void showErrorActivity() {
+        Intent intent = new Intent(getActivity(), ErrorActivity.class);
+        getActivity().startActivity(intent);
     }
 
     private View.OnClickListener buttonLoginClick = new View.OnClickListener() {

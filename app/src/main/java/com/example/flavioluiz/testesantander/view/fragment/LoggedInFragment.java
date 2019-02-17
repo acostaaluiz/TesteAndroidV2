@@ -1,5 +1,6 @@
 package com.example.flavioluiz.testesantander.view.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import com.example.flavioluiz.testesantander.repository.response.Statement;
 import com.example.flavioluiz.testesantander.repository.response.UserAccount;
 import com.example.flavioluiz.testesantander.utility.ProgressDialog;
 import com.example.flavioluiz.testesantander.view.StatementAdapter;
+import com.example.flavioluiz.testesantander.view.activity.ErrorActivity;
 
 import java.util.List;
 
@@ -83,6 +85,12 @@ public class LoggedInFragment extends Fragment implements LoggedInView{
         statementRecycler.setHasFixedSize(true);
         statementRecycler.setLayoutManager(myLayouyManager);
         statementRecycler.setAdapter(myRecyclerViewAdpter);
+    }
+
+    @Override
+    public void showErrorActivity() {
+        Intent intent = new Intent(getActivity(), ErrorActivity.class);
+        getActivity().startActivity(intent);
     }
 
     private View.OnClickListener buttonLogoutClick = v -> {

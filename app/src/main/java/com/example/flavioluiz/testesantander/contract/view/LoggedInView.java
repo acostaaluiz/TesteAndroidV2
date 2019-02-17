@@ -11,4 +11,5 @@ public interface LoggedInView {
     void dismissProgress();
     void setHeader(UserAccount userAccount);
     void setStatementList(List<Statement> statementList);
+    void showErrorActivity();
 }
