@@ -42,7 +42,9 @@ public class LoggedInController implements LoggedInPresenter {
             public void onResponse(Call<StatementResponse> call, Response<StatementResponse> response) {
                 if (response.isSuccessful()) {
 
-                    if(response.body().getError() == null) {
+                    Error error = response.body().getError();
+
+                    if(error.getCode() == null) {
 
                         StatementResponse statementResponse = response.body();
                         loggedInView.setStatementList(statementResponse.getStatementList());

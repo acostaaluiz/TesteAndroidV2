@@ -54,7 +54,7 @@ public class LoginController implements LoginPresenter {
     private void doLogin(User user){
 
         LoginService loginService = RetrofitInstance.createService(LoginService.class, "user", "secretpassword");
-        Call<UserAccountResponse> call = loginService.getLogin("","");
+        Call<UserAccountResponse> call = loginService.getLogin(user.getUser(), user.getPassword());
 
         call.enqueue(new Callback<UserAccountResponse >() {
             @Override
@@ -62,7 +62,9 @@ public class LoginController implements LoginPresenter {
 
                 if (response.isSuccessful()) {
 
-                    if(response.body().getError() == null) {
+                    Error error = response.body().getError();
+
+                    if(error.getCode() ==  null) {
 
                         UserAccountResponse userAccountResponse = response.body();
                         Global.userAccount = userAccountResponse.getUserAccount();
