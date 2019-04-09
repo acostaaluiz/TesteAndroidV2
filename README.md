@@ -1,5 +1,5 @@
 # TesteAndroidV2
-Teste IBM para vaga no Santander. Desenvolvimento em Java.
+Teste para vaga no Santander. Desenvolvimento em Java.
 
 FRONT END.
 -- IDE utilizada Android Studio 3.1.3.
